@@ -39,3 +39,26 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 //     })
 //     res.json(planet)
 // }
+
+export const updateUser = async (req: Request, res: Response) => {
+    const { id, username } = req.body
+    const updateUser = await prisma.user.update({
+        where: {
+            id: id
+        },
+        data: {
+            username: username
+        }
+    })
+    res.json(updateUser)
+}
+
+export const deleteUser = async (req: Request, res: Response) => {
+    const id = req.params.id
+    const deleteUser = await prisma.user.delete({
+        where: {
+            id: +id
+        }
+    })
+    res.json(deleteUser)
+}

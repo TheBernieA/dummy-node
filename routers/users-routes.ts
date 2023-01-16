@@ -1,5 +1,5 @@
 import express from 'express'
-import { createUser, getUsers } from '../controllers/users-controllers'
+import { createUser, deleteUser, getUsers, updateUser } from '../controllers/users-controllers'
 import { check } from 'express-validator'
 
 
@@ -14,3 +14,7 @@ router.post('/',
         check('password').isLength({ min: 6 })
     ]
     , createUser)
+
+router.put('/', updateUser)
+
+router.delete('/:id', deleteUser)
