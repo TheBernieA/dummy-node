@@ -11,14 +11,6 @@ const app = express()
 
 app.use(express.json())
 
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'images')
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${randomUUID()}-${file.originalname}`)
-    },
-})
 
 
 const fileFilter = (req: Request, file: any, cb: FileFilterCallback) => {
@@ -29,8 +21,22 @@ const fileFilter = (req: Request, file: any, cb: FileFilterCallback) => {
     }
 }
 
+const fileStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, 'images')
+    },
+    filename: (req, file, callback) => {
+        callback(null, `${randomUUID()}-${file.originalname}`)
+    },
+})
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
+})
+
+app.use(multer({ storage: fileStorage }).single("image"))
 
 app.use('/api/users/', usersRoute)
 
