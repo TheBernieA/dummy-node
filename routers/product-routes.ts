@@ -18,4 +18,4 @@ router.post('/:id/image', uploadImage)
 
 router.put('/', updateProduct)
 
-router.delete('/', deleteProduct)
+router.delete('/:id', deleteProduct)

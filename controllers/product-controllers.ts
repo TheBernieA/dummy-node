@@ -19,10 +19,10 @@ const getProducts = async (req: Request, res: Response) => {
 }
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-        return next(new HttpError('Please insert valid details', 422))
-    }
+    // const error = validationResult(req)
+    // if (!error.isEmpty()) {
+    //     return next(new HttpError('Please insert valid details', 422))
+    // }
 
     const { productList } = req.body
     const products = await prisma.product.createMany({

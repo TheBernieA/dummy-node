@@ -39,7 +39,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use(multer({ storage: fileStorage }).single("image"))
 
-app.use('/api/auth', authRoutes)
+app.use('/api/auth/', authRoutes)
 app.use('/api/products/', productRoute)
 
 app.use(() => {
