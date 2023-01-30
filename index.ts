@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { router as usersRoute } from './routers/users-routes';
+import { router as productRoute } from './routers/product-routes';
+import { router as authRoutes } from './routers/auth-routes';
 import { HttpError } from './models/http-error';
 import multer, { FileFilterCallback } from 'multer'
 import { randomUUID } from 'crypto';
@@ -38,7 +39,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use(multer({ storage: fileStorage }).single("image"))
 
-app.use('/api/users/', usersRoute)
+app.use('/api/auth', authRoutes)
+app.use('/api/products/', productRoute)
 
 app.use(() => {
     throw new HttpError("This route was not found", 404);
