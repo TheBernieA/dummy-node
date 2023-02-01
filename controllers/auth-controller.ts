@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import * as bcrypt from 'bcrypt'
 import { HttpError } from '../models/http-error';
 import jwt from 'jsonwebtoken'
+import '../helpers/passport'
 
 const prisma = new PrismaClient()
 const { SECRET = '' } = process.env
@@ -32,10 +33,25 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     if (user && (await bcrypt.compare(password, user.password))) {
         const payload = { username }
         const accessToken = await jwt.sign(payload, SECRET)
-        return res.json({ message: 'user logged', accessToken })
+        user.token = accessToken
+        return res.json({ message: 'user logged', user })
     } else {
-        return next(new HttpError('Unauthorized Exception', 401))
+        next(new HttpError('Unauthorized Exception', 401))
     }
+}
+
+
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+    const user: any = req.user
+    const userlogout = await prisma.user.update({
+        where: {
+            id: user?.id
+        },
+        data: {
+            token: null
+        }
+    })
+    res.json({ message: 'User logged out', userlogout })
 }
 
 
@@ -49,4 +65,4 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     res.json({ message: 'User deleted' })
 }
 
-export { signup, deleteUser, login }
+export { signup, deleteUser, login, logout }
