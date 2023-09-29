@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-
-<body>
+  </head>
+  <body>
+    <h1></h1>
     <script>
-        async function getApi() {
-            const response = await fetch('http://localhost:3000/api/products/')
-            const data = await response.json()
-            console.log(data);
-        }
-        getApi()
+      const h1 = document.querySelector("h1");
+      async function get() {
+        const res = await fetch("http://localhost:3000/users");
+        const data = await res.json();
+        console.log(data);
+        h1.innerText = data.name;
+      }
+      get();
     </script>
-</body>
-
+  </body>
 </html>
